@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form onsubmit="handleConvert(event)">
+        <h2>Convert Celsius to F</h2>
+        <input type="number" id="celsiusInput" placeholder="Enter Celsius" required/>
+        <button type="submit">
+            Covert
+        </button>
+    </form>
+    <p id="output1"></p>
+
+    <hr>
+
+    <form onsubmit="timeTen(event)">
+        <h2>Time ten string</h2>
+        <input type="text" name="stringInput" placeholder="Enter string" required/>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output2"></p>
+
+    <hr>
+
+    <form onsubmit="twoNumbers(event)">
+        <h2>max of 2 numbers</h2>
+        <input type="text" name="stringInput1" placeholder="Enter string" required/>
+        <input type="text" name="stringInput2" placeholder="Enter string" required/>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output3"></p>
+
+    <hr>
+
+    <form onsubmit="factorial(event)">
+        <h2>Factorial</h2>
+        <input type="text" name="stringInput" placeholder="Enter string" required/>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output4"></p>
+
+    <hr>
+
+    <form onsubmit="shortenString(event)">
+        <h2>Shorten 10+ char string</h2>
+        <input type="text" name="stringInput" placeholder="Enter string" required/>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output5"></p>
+
+    <hr>
+
+    <form onsubmit="upperFirstLetter(event)">
+        <h2>Upper First Letter</h2>
+        <input type="text" name="stringInput" placeholder="Enter string" required/>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output6"></p>
+
+    <hr>
+
+    <form onsubmit="evenSort(event)">
+        <h2>Even sort array</h2>
+        <p id="arr"></p>
+        <button type="submit">
+            Submit
+        </button>
+    </form>
+    <p id="output7"></p>
+
+    <hr>
+
+    <section>
+        <h2>User Form</h2>
+        <form onSubmit="validateUser(event)">
+            <input type="text" name="username" placeholder="Enter Username"/>
+            <input type="password" name="password" placeholder="Enter Password"/>
+            <input type="password" name="confirm" placeholder="Retype Password"/>
+            <button type="submit">
+                Submit
+            </button>
+        </form>
+        <p id="output8"></p>
+    </section>
+
+</body>
+<script>
+    'use strict';
+    function handleConvert(event){
+        event.preventDefault();
+        const celsius = event.target.celsiusInput.value;
+        const fahrenheit = (celsius * 9/5) + 32;
+        document.getElementById("output1").innerText = `${fahrenheit}°F`;
+    }
+    function timeTen(event){
+        event.preventDefault();
+        const input = event.target.stringInput.value;
+        const result = Array(10).fill(input)
+        document.getElementById("output2").innerText = result.join("-");
+    }
+
+    function twoNumbers(event){
+        event.preventDefault();
+    
+        const input1 = event.target.stringInput1.value;
+        const input2 = event.target.stringInput2.value;
+        const firstNumber = parseFloat(input1);
+        const secondNumber = parseFloat(input2);
+        if(!isNaN(firstNumber) && !isNaN(secondNumber) ){
+            document.getElementById("output3").innerText = Math.max(firstNumber, secondNumber);
+            return;
+        }
+        document.getElementById("output3").innerText = "One of them is not a number";
+    }
+    function isPositiveInteger(number) {
+        return Number.isInteger(number) && number >= 0;
+    }
+    function factorial(event){
+        event.preventDefault();
+        const input = Number(event.target.stringInput.value);
+        if(isPositiveInteger(input)){
+            let result = recursive(input)
+            document.getElementById("output4").innerText = result;
+            return;
+        }
+        document.getElementById("output4").innerText = "Not an integer";
+    }
+
+    function recursive(num){
+        if (num ===1 || num ===0){
+            return 1;
+        }
+        return num * recursive(num-1)
+    }
+
+    function shortenString(event){
+        event.preventDefault();
+        const input = event.target.stringInput.value;
+        if(input.length > 10){
+            document.getElementById("output5").innerText = input.slice(0,10) + "...";
+            return;
+        }
+        document.getElementById("output5").innerText = "Not enough length";
+    }
+
+    function upperFirstLetter(event){
+        event.preventDefault();
+        const input = event.target.stringInput.value;
+        if (input.length === 0) {
+            document.getElementById("output6").innerText = "";
+            return;
+        }
+        const result = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+        document.getElementById("output6").innerText = result;
+    }
+
+    function generateRandomArray(length, min, max) {
+        const randomArray = [];
+        
+        for (let i = 0; i < length; i++) {
+            const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            randomArray.push(randomNumber);
+        }
+        
+        return randomArray;
+    }
+
+    function evenSort(event){
+        event.preventDefault()
+        const arr = generateRandomArray(10,-100, 100);
+        document.getElementById("arr").innerText = arr.toString();
+        let newArr = [];
+        let pivot = 0;
+        
+        while(pivot<arr.length){
+            if(arr[pivot]%2==0){
+                newArr.push(arr[pivot])
+                let current = pivot +1;
+                while(current<arr.length){
+                    if(arr[current]%2==0){
+                        let downP = newArr.length-1;
+                        while(downP>=0 && arr[current]<newArr[downP]){
+                            downP--;
+                        }
+                        newArr.splice(downP+1,0,arr[current])
+                    }
+                        current++;
+                }
+                break;
+            }else{
+                pivot++;
+            }
+        }
+
+        //  const evenArr = arr.filter(function(a){
+        //     return a %2 ==0;
+        // })
+
+        // newArr = evenArr.sort(function(a,b){
+        //     return a-b;
+        // });
+        document.getElementById("output7").innerText = newArr.toString();
+    }
+
+    function validateUser(event){
+        event.preventDefault()
+        const user = {
+            username: event.target.username.value,
+            password: event.target.password.value,
+            confirm: event.target.confirm.value
+        }
+        let result = validation(user);
+        console.log(result)
+        document.getElementById("output8").innerText = result?"Pass":"Fail";
+    }
+
+    function validation(user){
+        let result = true;
+        if(user.username == "" || user.username.length >=20){
+            result = false;
+            return result;
+        }
+        if(user.password.length>32 || user.password.length <6){
+            result= false;
+            return result;
+        }
+        if(user.confirm != user.password){
+            result = false;
+            return result;
+        }
+        return result;
+    }
+</script>
+</html>
+
+<!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa -->
+ <!-- aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 31 char -->
