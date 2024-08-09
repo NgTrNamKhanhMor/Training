@@ -41,9 +41,9 @@
         function changeFontSize(fontsize){
             fontsize = parseFloat(fontsize);
             if (isNaN(fontsize)) return;
-            var paragraphs = document.getElementsByClassName("paragraph");
+            const paragraphs = document.getElementsByClassName("paragraph");
         
-            for (var i = 0; i < paragraphs.length; i++) {
+            for (let i = 0; i < paragraphs.length; i++) {
                 paragraphs[i].style.fontSize = `${fontsize}px`;
             }
         }
