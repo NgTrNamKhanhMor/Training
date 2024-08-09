@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="1" class="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris a turpis mollis, blandit lorem ac, rhoncus dui. Ut egestas ultricies laoreet. Cras in dui nisl. Fusce eget sagittis tellus, sit amet consequat arcu. Quisque a quam felis. Nulla elementum auctor tortor, non scelerisque leo dictum placerat. Sed ac sem ut odio cursus cursus. Duis feugiat augue a ante accumsan maximus. Vivamus tellus nulla, elementum eu ex ac, pulvinar aliquam erat. Donec dictum ex risus, in egestas justo posuere a. Morbi molestie tellus vitae turpis euismod sagittis. Nulla eget pharetra libero, vitae sollicitudin dolor. Mauris tincidunt mattis tellus, in sollicitudin purus sagittis consectetur. Duis pretium malesuada ultrices.
+    </p>
+    <p id="2" class="paragraph">Fusce molestie vehicula pretium. Suspendisse eget libero vitae ipsum vestibulum maximus vitae quis orci. Cras eu erat iaculis, euismod ipsum sed, ornare enim. Duis a risus ac metus semper consequat. Maecenas quam arcu, lobortis nec ex at, tempor mattis quam. Curabitur euismod odio et urna rhoncus auctor. Sed efficitur leo velit, vitae porttitor nibh eleifend quis. Aliquam erat volutpat. Sed dignissim bibendum ultrices. Phasellus interdum lobortis tortor eu tempus.
+    </p>
+    <p id="3" class="paragraph">Phasellus a dictum lacus. Nullam a ipsum non turpis posuere egestas a vitae tortor. Suspendisse sed quam ac magna tempor placerat. Fusce vel est eget neque lacinia facilisis at vitae nisl. Vivamus sollicitudin, tortor vitae bibendum maximus, dui tortor lacinia massa, in convallis leo urna quis tortor. Curabitur eu semper nisi. Nunc eu tristique mi, vehicula scelerisque ligula. Nam nec dolor sollicitudin, egestas dolor ut, iaculis augue. Quisque et tristique lacus. Sed luctus, dui ut imperdiet ultricies, augue mi aliquam ante, sed molestie nulla erat rutrum libero. Quisque nulla sapien, vehicula quis diam sit amet, tempor dictum leo. Aenean placerat non massa in interdum. Curabitur tincidunt, felis et rhoncus facilisis, augue quam vulputate tortor, sit amet pretium odio sapien id libero. Vestibulum pretium massa in aliquam imperdiet.
+    </p>
+
+    <button onclick="changeColor()">Change color</button>
+    <br>
+    <input type="text" placeholder="Enter a color" id="bgInput"/>
+    <button onclick="changeBgColor(document.getElementById('bgInput').value)">Change background color</button>
+    <br>
+    <input type="text" placeholder="Copy to" id="p1" style="width: 100px;">
+    <input type="text" placeholder="Copy from" id="p2" style="width: 100px;">
+    <button onclick="copyContent(document.getElementById('p1').value, document.getElementById('p2').value)">Copy content</button>
+    <br>
+    <input type="number" placeholder="Enter the font size" id="fs">
+    <button onclick="changeFontSize(document.getElementById('fs').value)">Change font size</button>
+
+    <script>
+        function changeColor(){
+            document.getElementById("1").style.color = "blue";
+            document.getElementById("2").style.color = "red";
+            document.getElementById("3").style.color = "yellow";
+        }
+        function changeBgColor(color){
+            document.body.style.backgroundColor = color;
+        }
+
+        function copyContent(id1, id2){
+            document.getElementById(id1).innerHTML = document.getElementById(id2).innerHTML 
+        }
+        function changeFontSize(fontsize){
+            fontsize = parseFloat(fontsize);
+            if (isNaN(fontsize)) return;
+            const paragraphs = document.getElementsByClassName("paragraph");
+        
+            for (let i = 0; i < paragraphs.length; i++) {
+                paragraphs[i].style.fontSize = `${fontsize}px`;
+            }
+        }
+    </script>
+</body>
+</html>
