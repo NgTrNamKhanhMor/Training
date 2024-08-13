@@ -50,37 +50,37 @@
             </div>
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light border" data-value="C">C</div>
+            <div class="col-3 button c text-bg-light border" data-value="C">C</div>
             <div class="col-3 button text-bg-light operator border" data-value="sqrt">&radic;</div>
             <div class="col-3 button text-bg-light operator border" data-value="square">x<sup>2</sup></div>
-            <div class="col-3 button text-bg-light operator border" data-value="+">+</div>
+            <div class="col-3 button op text-bg-light operator border" data-value="+">+</div>
 
 
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light operator border" data-value="7">7</div>
-            <div class="col-3 button text-bg-light operator border" data-value="8">8</div>
-            <div class="col-3 button text-bg-light operator border" data-value="9">9</div>
-            <div class="col-3 button text-bg-light operator border" data-value="-">-</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="7">7</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="8">8</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="9">9</div>
+            <div class="col-3 button op text-bg-light operator border" data-value="-">-</div>
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light operator border" data-value="4">4</div>
-            <div class="col-3 button text-bg-light operator border" data-value="5">5</div>
-            <div class="col-3 button text-bg-light operator border" data-value="6">6</div>
-            <div class="col-3 button text-bg-light operator border" data-value="*">x</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="4">4</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="5">5</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="6">6</div>
+            <div class="col-3 button op text-bg-light operator border" data-value="*">x</div>
 
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light operator border" data-value="1">1</div>
-            <div class="col-3 button text-bg-light operator border" data-value="2">2</div>
-            <div class="col-3 button text-bg-light operator border" data-value="3">3</div>
-            <div class="col-3 button text-bg-light operator border" data-value="/">/</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="1">1</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="2">2</div>
+            <div class="col-3 button num text-bg-light operator border" data-value="3">3</div>
+            <div class="col-3 button op text-bg-light operator border" data-value="/">/</div>
         </div>
         <div class="row ">
             <div class="col-3 button text-bg-light operator border" data-value="bracket">()</div>
 
-            <div class="col-3 button text-bg-light border" data-value="0">0</div>
-            <div class="col-3 button text-bg-light operator border" data-value=".">.</div>
+            <div class="col-3 button num text-bg-light border" data-value="0">0</div>
+            <div class="col-3 button num text-bg-light operator border" data-value=".">.</div>
             <div class="col-3 button equal border" data-value="=">=</div>
         </div>
     </div>
@@ -88,59 +88,58 @@
         const display = $("#display");
         let calValue = "";
         const brackets = [];
+        let displayValue = $(this).attr("data-value");
 
         $(document).ready(function(){
-            $(".button").click(function(){
-
-                let displayValue = $(this).attr("data-value");
-                try{
-                    if(displayValue ==='C'){
-                        calValue = ""
-                        displayValue = ""
-                        brackets.length = 0;
-                        display.html("");
-                    }else if ( displayValue === '='){
-                        if(calValue ==""){
-                            return;
-                        }
-                        if (brackets.length != 0) {
-                            for (let i = 0; i < brackets.length; i++) {
-                                calValue += ")";
-                            }
-                        }
-                        const result = String(eval(calValue))
-                        calValue = result 
-                        brackets.length = 0;
-                        displayValue = result
-                        display.html(displayValue);
-                    }
-                    else if (['+', '-', '*', '/'].includes(displayValue)) {
-                        const lastChar = calValue.slice(-1);
-
-                        if (calValue === "" && displayValue !== '-') {
-                            return;
-                        }
-                        else if (['+', '-', '*', '/'].includes(lastChar)) {
-                            calValue = calValue.slice(0, -1) + displayValue;
-                            display.html(display.html().slice(0,-1) + displayValue);
-                        }
-                        else if (lastChar === '('){
-                            return;
-                        }
-                        else {
-                            calValue += displayValue;
-                            display.html(display.html() + displayValue)
-                        }
-                    }
-                    else {
-                        calValue += displayValue
-                        console.log(calValue)
-                        display.html(display.html() + displayValue)
-                    }
-                }catch{
-                    display.html("error")
+            $(".num").click(function(){
+                const displayValue = $(this).attr("data-value")
+                calValue += displayValue
+                display.html(display.html() + displayValue)
+            })
+            $(".op").click(function(){
+                const displayValue = $(this).attr("data-value");
+                const lastChar = calValue.slice(-1);
+                if (calValue === "" && displayValue !== '-') {
+                    return;
+                }
+                else if (['+', '-', '*', '/'].includes(lastChar)) {
+                    calValue = calValue.slice(0, -1) + displayValue;
+                    display.html(display.html().slice(0,-1) + displayValue);
+                }
+                else if (lastChar === '('){
+                    return;
+                }
+                else {
+                    calValue += displayValue;
+                    display.html(display.html() + displayValue)
                 }
             })
+            $(".equal").click(function(){
+                let displayValue = $(this).attr("data-value");
+                if(calValue ==""){
+                    return;
+                }
+                if (brackets.length != 0) {
+                    for (let i = 0; i < brackets.length; i++) {
+                        calValue += ")";
+                    }
+                }
+                const result = String(eval(calValue))
+                calValue = result 
+                brackets.length = 0;
+                displayValue = result
+                display.html(displayValue);
+            })
+            $(".c").click(function(){
+                let displayValue = $(this).attr("data-value");
+                calValue = ""
+                displayValue = ""
+                brackets.length = 0;
+                display.html("");
+            })
+
+
+            
         });
     </script>
 </body>
