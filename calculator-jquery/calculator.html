@@ -51,7 +51,7 @@
         </div>
         <div class="row ">
             <div class="col-3 button c text-bg-light border" data-value="C">C</div>
-            <div class="col-3 button text-bg-light operator border" data-value="sqrt">&radic;</div>
+            <div class="col-3 button sqrt text-bg-light operator border" data-value="sqrt">&radic;</div>
             <div class="col-3 button text-bg-light operator border" data-value="square">x<sup>2</sup></div>
             <div class="col-3 button op text-bg-light operator border" data-value="+">+</div>
 
@@ -136,6 +136,18 @@
                 displayValue = ""
                 brackets.length = 0;
                 display.html("");
+            })
+            $(".sqrt").click(function(){
+                let displayValue = "&radic;("
+                let lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                
+                if (lastNumberMatch) {
+                    displayValue = "*" + displayValue;
+                    calValue = calValue+'*';
+                }
+                calValue += "Math.sqrt(";
+                brackets.push("(")
+                display.html(display.html()+displayValue)
             })
 
 
