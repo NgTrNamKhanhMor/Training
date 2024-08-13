@@ -77,11 +77,11 @@
             <div class="col-3 button op text-bg-light operator border" data-value="/">/</div>
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light operator border" data-value="bracket">()</div>
+            <div class="col-3 button bracket text-bg-light operator border">()</div>
 
             <div class="col-3 button num text-bg-light border" data-value="0">0</div>
             <div class="col-3 button num text-bg-light operator border" data-value=".">.</div>
-            <div class="col-3 button equal border" data-value="=">=</div>
+            <div class="col-3 button equal border" >=</div>
         </div>
     </div>
     <script>
@@ -114,7 +114,6 @@
                 }
             })
             $(".equal").click(function(){
-                let displayValue = $(this).attr("data-value");
                 if(calValue ==""){
                     return;
                 }
@@ -126,8 +125,7 @@
                 const result = String(eval(calValue))
                 calValue = result 
                 brackets.length = 0;
-                displayValue = result
-                display.html(displayValue);
+                display.html(result);
             })
             $(".c").click(function(){
                 calValue = ""
@@ -167,8 +165,37 @@
                     return;
                 }
             })
-
-
+            $(".bracket").click(function(){
+                let displayValue = $(this).attr("data-value");
+                const lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                const operatorMatch = calValue.match(/[\+\-\*\/]$/);
+                const lastCharIsClosingBracket = calValue.match(/\)$/);
+                const lastCharIsOpeningBracket = calValue.match(/\($/);
+                if (operatorMatch) {
+                    displayValue = "(";
+                    brackets.push("(");
+                }
+                else if (lastNumberMatch && brackets.length == 0){
+                    displayValue = "*("
+                    brackets.push("(")
+                }else if (lastNumberMatch && brackets.length != 0){
+                    displayValue = ")"
+                    brackets.pop()
+                }else if (lastCharIsClosingBracket && brackets.length != 0) {
+                    displayValue = ")";
+                    brackets.pop();
+                } 
+                else if (lastCharIsOpeningBracket || calValue == ""){
+                    displayValue = "(";
+                    brackets.push("(");
+                }
+                else{
+                    displayValue = "*(";
+                    brackets.push("(");
+                }
+                calValue += displayValue;
+                display.html(display.html() + displayValue);
+            })
             
         });
     </script>
