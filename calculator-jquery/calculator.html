@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="row ">
-            <div class="col-3 button c text-bg-light border" data-value="C">C</div>
-            <div class="col-3 button sqrt text-bg-light operator border" data-value="sqrt">&radic;</div>
-            <div class="col-3 button text-bg-light operator border" data-value="square">x<sup>2</sup></div>
+            <div class="col-3 button c text-bg-light border" >C</div>
+            <div class="col-3 button sqrt text-bg-light operator border">&radic;</div>
+            <div class="col-3 button square text-bg-light operator border">x<sup>2</sup></div>
             <div class="col-3 button op text-bg-light operator border" data-value="+">+</div>
 
 
@@ -88,7 +88,6 @@
         const display = $("#display");
         let calValue = "";
         const brackets = [];
-        let displayValue = $(this).attr("data-value");
 
         $(document).ready(function(){
             $(".num").click(function(){
@@ -131,9 +130,7 @@
                 display.html(displayValue);
             })
             $(".c").click(function(){
-                let displayValue = $(this).attr("data-value");
                 calValue = ""
-                displayValue = ""
                 brackets.length = 0;
                 display.html("");
             })
@@ -148,6 +145,27 @@
                 calValue += "Math.sqrt(";
                 brackets.push("(")
                 display.html(display.html()+displayValue)
+            })
+            $(".square").click(function(){
+                displayValue = "<sup>2</sup>"
+                let lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                let lastExpressionMatch = calValue.match(/\(([^()]+)\)$/);
+
+                if (lastNumberMatch) {
+                    let lastNumber = lastNumberMatch[0];
+                    let squaredValue = Math.pow(lastNumber, 2);
+                    calValue = calValue.replace(/(\d+\.?\d*)$/, squaredValue);
+                    display.html(display.html()+displayValue)
+                }
+                else if (lastExpressionMatch) {
+                    let lastExpression = lastExpressionMatch[1];
+                    let squaredValue = Math.pow(eval(lastExpression), 2); 
+                    calValue = calValue.replace(/\(([^()]+)\)$/, squaredValue);
+                    display.html(display.html()+displayValue)
+                } 
+                else {
+                    return;
+                }
             })
 
 
