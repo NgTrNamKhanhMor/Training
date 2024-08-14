@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="row ">
-            <div class="col-3 button c text-bg-light border" data-value="C">C</div>
-            <div class="col-3 button text-bg-light operator border" data-value="sqrt">&radic;</div>
-            <div class="col-3 button text-bg-light operator border" data-value="square">x<sup>2</sup></div>
+            <div class="col-3 button c text-bg-light border" >C</div>
+            <div class="col-3 button sqrt text-bg-light operator border">&radic;</div>
+            <div class="col-3 button square text-bg-light operator border">x<sup>2</sup></div>
             <div class="col-3 button op text-bg-light operator border" data-value="+">+</div>
 
 
@@ -77,18 +77,17 @@
             <div class="col-3 button op text-bg-light operator border" data-value="/">/</div>
         </div>
         <div class="row ">
-            <div class="col-3 button text-bg-light operator border" data-value="bracket">()</div>
+            <div class="col-3 button bracket text-bg-light operator border">()</div>
 
             <div class="col-3 button num text-bg-light border" data-value="0">0</div>
             <div class="col-3 button num text-bg-light operator border" data-value=".">.</div>
-            <div class="col-3 button equal border" data-value="=">=</div>
+            <div class="col-3 button equal border" >=</div>
         </div>
     </div>
     <script>
         const display = $("#display");
         let calValue = "";
         const brackets = [];
-        let displayValue = $(this).attr("data-value");
 
         $(document).ready(function(){
             $(".num").click(function(){
@@ -115,7 +114,6 @@
                 }
             })
             $(".equal").click(function(){
-                let displayValue = $(this).attr("data-value");
                 if(calValue ==""){
                     return;
                 }
@@ -127,18 +125,77 @@
                 const result = String(eval(calValue))
                 calValue = result 
                 brackets.length = 0;
-                displayValue = result
-                display.html(displayValue);
+                display.html(result);
             })
             $(".c").click(function(){
-                let displayValue = $(this).attr("data-value");
                 calValue = ""
-                displayValue = ""
                 brackets.length = 0;
                 display.html("");
             })
+            $(".sqrt").click(function(){
+                let displayValue = "&radic;("
+                let lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                
+                if (lastNumberMatch) {
+                    displayValue = "*" + displayValue;
+                    calValue = calValue+'*';
+                }
+                calValue += "Math.sqrt(";
+                brackets.push("(")
+                display.html(display.html()+displayValue)
+            })
+            $(".square").click(function(){
+                displayValue = "<sup>2</sup>"
+                let lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                let lastExpressionMatch = calValue.match(/\(([^()]+)\)$/);
 
-
+                if (lastNumberMatch) {
+                    let lastNumber = lastNumberMatch[0];
+                    let squaredValue = Math.pow(lastNumber, 2);
+                    calValue = calValue.replace(/(\d+\.?\d*)$/, squaredValue);
+                    display.html(display.html()+displayValue)
+                }
+                else if (lastExpressionMatch) {
+                    let lastExpression = lastExpressionMatch[1];
+                    let squaredValue = Math.pow(eval(lastExpression), 2); 
+                    calValue = calValue.replace(/\(([^()]+)\)$/, squaredValue);
+                    display.html(display.html()+displayValue)
+                } 
+                else {
+                    return;
+                }
+            })
+            $(".bracket").click(function(){
+                let displayValue = $(this).attr("data-value");
+                const lastNumberMatch = calValue.match(/(\d+\.?\d*)$/);
+                const operatorMatch = calValue.match(/[\+\-\*\/]$/);
+                const lastCharIsClosingBracket = calValue.match(/\)$/);
+                const lastCharIsOpeningBracket = calValue.match(/\($/);
+                if (operatorMatch) {
+                    displayValue = "(";
+                    brackets.push("(");
+                }
+                else if (lastNumberMatch && brackets.length == 0){
+                    displayValue = "*("
+                    brackets.push("(")
+                }else if (lastNumberMatch && brackets.length != 0){
+                    displayValue = ")"
+                    brackets.pop()
+                }else if (lastCharIsClosingBracket && brackets.length != 0) {
+                    displayValue = ")";
+                    brackets.pop();
+                } 
+                else if (lastCharIsOpeningBracket || calValue == ""){
+                    displayValue = "(";
+                    brackets.push("(");
+                }
+                else{
+                    displayValue = "*(";
+                    brackets.push("(");
+                }
+                calValue += displayValue;
+                display.html(display.html() + displayValue);
+            })
             
         });
     </script>
