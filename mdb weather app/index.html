@@ -1,53 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>Material Design for Bootstrap</title>
-    <!-- MDB icon -->
-    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-    />
-    <!-- Google Fonts Roboto -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
-    />
-    <!-- MDB -->
-    <link rel="stylesheet" href="css/mdb.min.css" />
-  </head>
-  <body>
-    <!-- Start your project here-->
-    <div class="container">
-      <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
-        <div class="text-center">
-          <img
-            class="mb-4"
-            src="https://mdbootstrap.com/img/logo/mdb-transparent-250px.png"
-            style="width: 250px; height: 90px"
-          />
-          <h5 class="mb-3">Thank you for using our product. We're glad you're with us.</h5>
-          <p class="mb-3">MDB Team</p>
-          <a
-            class="btn btn-primary btn-lg"
-            data-mdb-ripple-init
-            href="https://mdbootstrap.com/docs/standard/getting-started/"
-            target="_blank"
-            role="button"
-            >Start MDB tutorial</a
-          >
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Material Design for Bootstrap</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- MDB -->
+  <link rel="stylesheet" href="css/mdb.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <style>
+    .carousel-inner .carousel-item {
+      height: 50vh;
+      padding: 0 5rem;
+    }
+
+    .carousel-inner {
+      padding: 3rem 0;
+    }
+
+    .slide-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .carousel-item p,
+    .carousel-item p {
+      margin: 0;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 5%;
+    }
+
+    .carousel-indicators {
+      bottom: -20px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      background-color: black;
+    }
+
+    .carousel-control-next,
+    .carousel-control-prev {
+      filter: invert(100%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid bg-light-subtle d-flex justify-content-center align-items-center vh-100">
+    <div class="container bg-info-subtle mx-4 mx-lg-5 rounded-4">
+      <div id="demo" class="carousel slide rounded-3" data-mdb-ride="carousel" data-mdb-carousel-init>
+        <div class="carousel-indicators">
+          <button type="button" data-mdb-target="#demo"  data-mdb-slide-to="0" class="active"></button>
+          <button type="button" data-mdb-target="#demo" data-mdb-slide-to="1"></button>
+          <button type="button" data-mdb-target="#demo" data-mdb-slide-to="2"></button>
         </div>
+
+        <div class="carousel-inner">
+          <div class="carousel-item active" id="now">
+            <div class="slide-content justify-content-center">
+              <div class="row w-100">
+                <div class="col-md-2 d-flex justify-content-center align-self-center align-items-center">
+                  <div class="row p-0 w-100 text-center justify-content-center align-self-center ">
+                    <div class="col-8">
+                      <p class="text-dark display-2" id="nowTemp"></p>
+                    </div>
+                    <div class="col-8 ps-3 ps-md-0">
+                      <p id="location"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-10 d-flex justify-content-center justify-content-md-end align-items-center">
+                  <img id="nowIcon" class="h-100">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-item">
+            <div class="row justify-content-center align-content-center text-center h-100" id="5hours">
+            </div>
+          </div>
+          <div class="carousel-item">
+            <div class="row justify-content-center align-content-center text-center h-100" id="5days">
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-mdb-target="#demo" data-mdb-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-mdb-target="#demo" data-mdb-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
       </div>
     </div>
-    <!-- End your project here-->
+  </div>
 
-    <!-- MDB -->
-    <script type="text/javascript" src="js/mdb.umd.min.js"></script>
-    <!-- Custom scripts -->
-    <script type="text/javascript"></script>
-  </body>
+  <!-- MDB -->
+  <script type="text/javascript" src="js/mdb.umd.min.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    getWeatherNow("Hanoi", function (weatherData) {
+      $("#nowTemp").html(Math.floor(weatherData.temp) + "°C")
+      $("#location").html(weatherData.location)
+      $("#nowIcon").attr("src", weatherData.iconUrl)
+    })
+    getWeatherNext5Hours("Hanoi", function (weatherData) {
+      console.log(weatherData)
+      const list5hours = $("#5hours");
+      for (let i = 0; i < weatherData.length; i++) {
+        const listItem = document.createElement("div");
+        $(listItem).attr("class", "col-4 col-md-2 mb-3");
+        $(listItem).html(`
+                        <p class="small">${Math.floor(weatherData[i].temp)}°C</p>
+                        <img src="${weatherData[i].iconUrl}" alt="Weather icon" class="img-fluid rounded">
+                        <p class="text-muted"><strong>${weatherData[i].time.slice(0, -2)}</strong></p>
+                        <p class="text-muted"><strong>${weatherData[i].time.slice(-2)}</strong></p>
+                    `);
+        list5hours.append(listItem);
+      }
+    });
+
+    getWeatherNext5Days("Hanoi", function (weatherData) {
+      const list5days = $("#5days");
+      for (let i = 0; i < weatherData.length; i++) {
+        const listItem = document.createElement("div");
+        $(listItem).attr("class", "col-4 col-md-2 mb-3");
+        $(listItem).html(`
+                        <p class="small">${Math.floor(weatherData[i].temp)}°C</p>
+                        <img src="${weatherData[i].iconUrl}" alt="Weather icon" class="img-fluid rounded">
+                        <p>${weatherData[i].day}</p>
+                    `);
+        list5days.append(listItem);
+      }
+    });
+  </script>
+</body>
+
 </html>
