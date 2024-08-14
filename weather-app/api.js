@@ -9,7 +9,6 @@ function getWeatherNow(city, callback) {
                 temp: data.main.temp,
                 location: `${city}, ${country}`,
                 iconUrl: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
-                time: formatTimestampToHour(data.dt)
             };
             callback(weatherNow);
         });
@@ -69,7 +68,7 @@ function fetchCityCoordinates(city, callback) {
         if (data && data.length > 0) {
             const lat = data[0].lat;
             const lon = data[0].lon;
-            const country = data[0].state; 
+            const country = data[0].country; 
             callback(lat, lon, country);
         } else {
             console.error('City not found');
